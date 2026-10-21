@@ -26,6 +26,7 @@ export default function NewRequest() {
   const [video, setVideo] = useState<Picked | null>(null);
   const [mediaErrors, setMediaErrors] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -66,15 +67,16 @@ export default function NewRequest() {
   };
   const invalid = Object.values(errors).some(Boolean);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    if (invalid || !video) return;
-    addRequest({
+    if (invalid || !video || saving) return;
+    setSaving(true);
+    await addRequest({
       ...form,
       title: form.title.trim(), location: form.location.trim(), description: form.description.trim(),
-      images: images.map((i) => ({ name: i.file.name, url: i.url })),
-      video: { name: video.file.name, url: video.url },
+      images: images.map((i) => ({ name: i.file.name, url: i.url, file: i.file })),
+      video: { name: video.file.name, url: video.url, file: video.file },
       requesterId: user!.id, requester: user!.name,
     });
     navigate('/user/requests');
@@ -135,7 +137,7 @@ export default function NewRequest() {
 
         <div className="f-actions">
           <button type="button" className="btn btn-ghost" onClick={() => navigate(-1)}>Cancel</button>
-          <button type="submit" className="btn btn-primary"><Send size={15} /> Submit request</button>
+          <button type="submit" className="btn btn-primary" disabled={saving}><Send size={15} /> {saving ? 'Submitting…' : 'Submit request'}</button>
         </div>
       </form>
     </>

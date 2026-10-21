@@ -25,6 +25,8 @@ Checks: `npm run lint` · `npm run build`
 
 Only the User role can create requests; Admin and Maintenance have no "new request" action.
 
+The login page also has **Create account** (registers a User only) and **Forgot password** (demo: verifies the email, then sets a new password; no email is sent).
+
 ## Structure
 ```
 src/

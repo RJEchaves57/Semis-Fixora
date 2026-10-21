@@ -1,7 +1,7 @@
 export type Role = 'user' | 'admin' | 'maintenance';
 export type Status = 'Pending' | 'Approved' | 'Declined' | 'Assigned' | 'In Progress' | 'Resolved';
 export type Priority = 'Low' | 'Medium' | 'High';
-export type Media = { name: string; url: string };
+export type Media = { name: string; url: string; key?: string; file?: File };
 
 export type Account = {
   id: string;

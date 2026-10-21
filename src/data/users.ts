@@ -10,4 +10,3 @@ export const accounts: Account[] = [
   { id: 'm-andrea', name: 'Andrea Perez', email: 'andrea@fixora.edu', password: 'team123', role: 'maintenance', title: 'General maintenance', specialty: 'Carpentry' },
 ];
 
-export const maintenanceStaff = accounts.filter((a) => a.role === 'maintenance');

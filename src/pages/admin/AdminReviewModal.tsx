@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Check, UserPlus, X } from 'lucide-react';
 import RequestDetail from '../../components/RequestDetail';
 import { useRequests } from '../../context/RequestsContext';
-import { maintenanceStaff } from '../../data/users';
+import { getMaintenanceStaff } from '../../context/AuthContext';
 
 export default function AdminReviewModal({ id, onClose }: { id: string; onClose: () => void }) {
   const { requests, approve, decline, assign } = useRequests();
+  const maintenanceStaff = getMaintenanceStaff();
   const request = requests.find((r) => r.id === id);
   const [declining, setDeclining] = useState(false);
   const [reason, setReason] = useState('');
@@ -20,7 +21,13 @@ export default function AdminReviewModal({ id, onClose }: { id: string; onClose:
       {request.status === 'Pending' && !declining && (
         <>
           <button className="btn btn-danger" onClick={() => setDeclining(true)}><X size={15} /> Decline</button>
-          <button className="btn btn-success" onClick={() => approve(request.id)}><Check size={15} /> Approve request</button>
+          <div className="grow">
+            <select value={staffId} onChange={(e) => setStaffId(e.target.value)} aria-label="Assign to maintenance team member (optional)">
+              <option value="">Assign to… (optional)</option>
+              {maintenanceStaff.map((s) => <option key={s.id} value={s.id}>{s.name} · {s.specialty}</option>)}
+            </select>
+          </div>
+          <button className="btn btn-success" onClick={() => { approve(request.id); if (staffId) assign(request.id, staffId); }}><Check size={15} /> {staffId ? 'Approve & assign' : 'Approve request'}</button>
         </>
       )}
       {request.status === 'Pending' && declining && (
