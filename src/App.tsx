@@ -1,11 +1,73 @@
-import { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
-import Requests from './pages/Requests';
-import Sections from './pages/Sections';
-import { initialRequests } from './data/requests';
-import type { RequestItem } from './types';
-import './styles.css';
-function AppContent(){const [requests,setRequests]=useState<RequestItem[]>(initialRequests);const [modal,setModal]=useState(false);const [form,setForm]=useState({title:'',category:'Electrical',location:'',requester:'Admin User',priority:'Medium' as RequestItem['priority']});const updateStatus=(id:string,status:RequestItem['status'])=>setRequests(old=>old.map(r=>r.id===id?{...r,status}:r));const createRequest=()=>{if(!form.title.trim()||!form.location.trim())return;setRequests(old=>[{id:`FX-${2049+old.length-initialRequests.length}`,title:form.title,category:form.category,location:form.location,requester:form.requester,date:'Oct 13, 2026',priority:form.priority,status:'Pending',assignee:'Unassigned'},...old]);setForm({title:'',category:'Electrical',location:'',requester:'Admin User',priority:'Medium'});setModal(false)};return <><Routes><Route element={<Layout/>}><Route index element={<Dashboard requests={requests} onNew={()=>setModal(true)} onStatus={updateStatus}/>}/><Route path="requests" element={<Requests requests={requests} onNew={()=>setModal(true)} onStatus={updateStatus}/>}/><Route path="facilities" element={<Sections/>}/><Route path="staff" element={<Sections/>}/><Route path="schedule" element={<Sections/>}/><Route path="settings" element={<Sections/>}/><Route path="*" element={<Dashboard requests={requests} onNew={()=>setModal(true)} onStatus={updateStatus}/>}/></Route></Routes>{modal&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setModal(false)}}><form className="request-modal" onSubmit={e=>{e.preventDefault();createRequest()}}><div className="modal-head"><div><span className="eyebrow">CAMPUS OPERATIONS</span><h2>Create maintenance request</h2><p>Log a new issue for the maintenance team.</p></div><button type="button" className="modal-close" onClick={()=>setModal(false)}>×</button></div><label>Issue title<input required autoFocus value={form.title} onChange={e=>setForm({...form,title:e.target.value})} placeholder="e.g. Broken classroom light"/></label><div className="modal-two"><label>Category<select value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{['Electrical','Plumbing','Carpentry','IT Equipment','Furniture','HVAC','Cleaning','Other'].map(x=><option key={x}>{x}</option>)}</select></label><label>Priority<select value={form.priority} onChange={e=>setForm({...form,priority:e.target.value as RequestItem['priority']})}>{['Low','Medium','High'].map(x=><option key={x}>{x}</option>)}</select></label></div><label>Location<input required value={form.location} onChange={e=>setForm({...form,location:e.target.value})} placeholder="Building, floor, room..."/></label><div className="modal-actions"><button type="button" className="outline-btn" onClick={()=>setModal(false)}>Cancel</button><button className="primary-btn" type="submit">Create request</button></div><small className="demo-note">Demo mode: changes stay in memory until refresh.</small></form></div>}</>}
-export default function App(){return <BrowserRouter><AppContent/></BrowserRouter>}
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { RequestsProvider } from './context/RequestsContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import { roleHome } from './data/constants';
+import Login from './pages/Login';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminRequests from './pages/admin/AdminRequests';
+import Sections from './pages/admin/Sections';
+import UserLayout from './pages/user/UserLayout';
+import UserDashboard from './pages/user/UserDashboard';
+import MyRequests from './pages/user/MyRequests';
+import NewRequest from './pages/user/NewRequest';
+import MaintenanceLayout from './pages/maintenance/MaintenanceLayout';
+import MaintenanceDashboard from './pages/maintenance/MaintenanceDashboard';
+import MyTasks from './pages/maintenance/MyTasks';
+import './styles/admin.css';
+import './styles/admin-extra.css';
+import './styles/shared.css';
+import './styles/auth.css';
+import './styles/user.css';
+import './styles/maintenance.css';
+
+function Home() {
+  const { user } = useAuth();
+  return <Navigate to={user ? roleHome[user.role] : '/login'} replace />;
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <RequestsProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+
+            {/* Admin: approve / decline / assign — no "new request" here */}
+            <Route path="/admin" element={<ProtectedRoute role="admin" />}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="requests" element={<AdminRequests />} />
+                <Route path="facilities" element={<Sections />} />
+                <Route path="staff" element={<Sections />} />
+                <Route path="schedule" element={<Sections />} />
+                <Route path="settings" element={<Sections />} />
+              </Route>
+            </Route>
+
+            {/* User: the only role that can create requests */}
+            <Route path="/user" element={<ProtectedRoute role="user" />}>
+              <Route element={<UserLayout />}>
+                <Route index element={<UserDashboard />} />
+                <Route path="requests" element={<MyRequests />} />
+                <Route path="new" element={<NewRequest />} />
+              </Route>
+            </Route>
+
+            {/* Maintenance team: work on assigned tasks */}
+            <Route path="/maintenance" element={<ProtectedRoute role="maintenance" />}>
+              <Route element={<MaintenanceLayout />}>
+                <Route index element={<MaintenanceDashboard />} />
+                <Route path="tasks" element={<MyTasks />} />
+              </Route>
+            </Route>
+
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </RequestsProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}

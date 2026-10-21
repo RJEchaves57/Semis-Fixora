@@ -1,41 +1,47 @@
-# FIXORA — School Maintenance Admin Dashboard
+# FIXORA — School Maintenance System
 
-A responsive React + TypeScript dashboard for a school maintenance mini-capstone. The visual language follows the supplied FIXORA sign-in reference: deep navy surfaces, teal accents, compact typography, rounded cards, and a clean operations-oriented layout.
-
-## Requirements
-- Node.js 20.19+ (or a supported current LTS)
-- npm
+React + TypeScript + Vite front end with three separate role areas: **User**, **Admin** and **Maintenance Team**.
 
 ## Run locally
 ```bash
 npm install
 npm run dev
 ```
+Checks: `npm run lint` · `npm run build`
 
-## Quality checks
-```bash
-npm run lint
-npm run build
-```
+## Demo accounts (frontend demo only)
+| Role | Email | Password |
+|---|---|---|
+| User | user@fixora.edu | user123 |
+| Admin | admin@fixora.edu | admin123 |
+| Maintenance Team | rafael@fixora.edu (also michelle@, james@, andrea@) | team123 |
 
-## Included
-- React 18, TypeScript, Vite, React Router, ESLint
-- Responsive overview with KPIs, CSS charts, request status summary, recent requests, and today's schedule
-- Request management with search, status filtering, status updates, CSV export, and a create-request modal
-- Facility condition cards, staff assignments, maintenance schedule, and workspace settings
-- Reusable layout, typed request data, accessible labels, responsive CSS
+## Request workflow
+1. **User** creates a request (photos + video are required).
+2. **Admin** approves or declines (a reason is required to decline).
+3. **Admin** assigns approved requests to a maintenance team member.
+4. **Maintenance Team** starts work, then marks it resolved.
+5. **User** tracks progress on their dashboard.
 
-## Demo data and backend
-This version intentionally runs without a backend and uses sample data in `src/data/requests.ts`. Updates exist in browser memory only and reset after a refresh. For a production capstone, connect the request actions to your Laravel API and use server-side authentication/authorization. Do not treat the demo interface as a security boundary.
+Only the User role can create requests; Admin and Maintenance have no "new request" action.
 
-## Main structure
+## Structure
 ```
 src/
-  components/  Brand.tsx, Layout.tsx
-  data/        requests.ts
-  pages/       Dashboard.tsx, Requests.tsx, Sections.tsx
-  App.tsx
-  main.tsx
-  styles.css
-  types.ts
+  context/      AuthContext.tsx, RequestsContext.tsx
+  components/   Brand, ProtectedRoute, Badges, StatusTracker, RequestDetail
+  data/         users.ts, requests.ts, constants.ts
+  pages/
+    Login.tsx
+    admin/        AdminLayout, AdminDashboard, AdminRequests, AdminReviewModal, Sections
+    user/         UserLayout, UserDashboard, MyRequests, NewRequest
+    maintenance/  MaintenanceLayout, MaintenanceDashboard, MyTasks
+  styles/       admin.css, admin-extra.css, shared.css, auth.css, user.css, maintenance.css
 ```
+
+## Important
+Accounts, requests and uploaded media live in the browser only (uploads reset on refresh). Route guards are
+**not** real security. For the final capstone, move authentication, authorization and file storage to your backend
+(e.g. Laravel) and have the API enforce who can approve, assign and create requests.
+
+Upload limits are set at the top of `src/pages/user/NewRequest.tsx` (min 1 photo, max 6 photos at 5 MB, 1 video up to 50 MB).
