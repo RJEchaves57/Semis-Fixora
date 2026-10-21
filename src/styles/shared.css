@@ -1,11 +1,10 @@
 /* Theme tokens: admin uses :root (navy/teal), user and maintenance override on their wrappers */
 :root{--accent:var(--teal);--accent-ink:#05242a;--ok:#17a37a;--bad:#d6455d}
-.theme-user{--bg:#f3f5fb;--panel:#fff;--panel2:#eef1f9;--border:#dfe4f0;--muted:#66758c;--text:#142039;--accent:#4f46e5;--accent-ink:#fff;background:var(--bg);color:var(--text);min-height:100vh}
-.theme-maint{--bg:#14110f;--panel:#1d1915;--panel2:#27221b;--border:#3a3128;--muted:#a69a8c;--text:#f6efe6;--accent:#ffb020;--accent-ink:#1b1204;background:var(--bg);color:var(--text);min-height:100vh}
+.theme-user,.theme-maint{background:var(--bg);color:var(--text);min-height:100vh}
 
 .btn{border:1px solid transparent;border-radius:9px;padding:10px 15px;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:filter .15s,background .15s;white-space:nowrap;color:var(--text);background:none}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary{background:linear-gradient(110deg,#60e7ce,#29c4a9);color:var(--accent-ink)}
 .btn-primary:hover:not(:disabled){filter:brightness(1.08)}
 .btn-ghost{border-color:var(--border)}
 .btn-ghost:hover:not(:disabled){background:var(--panel2)}

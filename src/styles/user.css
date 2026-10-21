@@ -3,7 +3,7 @@
 .u-top{background:var(--panel);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
 .u-top-in{max-width:1120px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;gap:22px}
 .u-brand{display:flex;align-items:center;gap:9px}
-.u-brand span{width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;display:grid;place-items:center}
+.u-brand span{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#66ecd3,#25bda7);color:#07252a;display:grid;place-items:center}
 .u-brand b{font:800 18px Manrope,sans-serif;letter-spacing:-.5px}
 .u-brand small{color:var(--muted);font-size:11px;padding-left:9px;border-left:1px solid var(--border)}
 .u-nav{display:flex;gap:4px;flex:1}
@@ -18,17 +18,17 @@
 .u-logout:hover{color:var(--bad);border-color:var(--bad)}
 .u-main{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
 
-.u-hero{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:30px 32px;border-radius:20px;color:#fff;background:linear-gradient(120deg,#4f46e5,#7c6cf5 60%,#a78bfa);margin-bottom:20px;box-shadow:0 12px 30px #4f46e533}
+.u-hero{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:30px 32px;border-radius:20px;color:var(--text);background:linear-gradient(120deg,#12404a,#14303f 60%,#132333);border:1px solid #2a4a55;margin-bottom:20px}
 .u-hero h1{margin:0 0 8px;font-size:26px;letter-spacing:-.6px}
 .u-hero p{margin:0;max-width:520px;font-size:13.5px;line-height:1.6;opacity:.92}
-.u-hero-btn{background:#fff;color:#4338ca;padding:13px 20px;font-size:13px;text-decoration:none}
+.u-hero-btn{background:linear-gradient(110deg,#60e7ce,#29c4a9);color:#05242a;padding:13px 20px;font-size:13px;text-decoration:none}
 .u-hero-btn:hover{filter:brightness(.96)}
 .u-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.u-stat{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;display:grid;gap:4px;box-shadow:0 1px 2px #1420390a}
+.u-stat{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;display:grid;gap:4px;box-shadow:none}
 .u-stat span{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;margin-bottom:8px}
 .u-stat b{font:800 28px Manrope,sans-serif}.u-stat small{color:var(--muted);font-size:12px}
-.u-stat.indigo span{background:#e8e7ff;color:#4f46e5}.u-stat.amber span{background:#fff1d6;color:#b86e00}.u-stat.violet span{background:#f0e8ff;color:#7c3aed}.u-stat.green span{background:#dcf7ec;color:#0c8a62}
-.u-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:0 1px 2px #1420390a}
+.u-stat.indigo span{background:#12343d;color:#56e0c6}.u-stat.amber span{background:#3a3020;color:#d8a95c}.u-stat.violet span{background:#1b3248;color:#4e8fbd}.u-stat.green span{background:#12392f;color:#56dfc5}
+.u-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:none}
 .u-card h2{margin:0 0 4px;font-size:16px}
 .u-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .u-card-head a{color:var(--accent);font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:5px}
@@ -44,10 +44,10 @@
 .u-page-head h1{margin:0 0 5px;font-size:24px;letter-spacing:-.5px}.u-page-head p{margin:0;color:var(--muted);font-size:13px}
 .u-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
 .u-tabs button{border:1px solid var(--border);background:var(--panel);color:var(--muted);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700}
-.u-tabs button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.u-tabs button.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .u-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
 .u-req{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}
-.u-req:hover,.u-req:focus-visible{transform:translateY(-2px);box-shadow:0 12px 28px #14203920;outline:0}
+.u-req:hover,.u-req:focus-visible{transform:translateY(-2px);box-shadow:0 12px 28px #0006;outline:0}
 .u-req-img{height:150px;background:var(--panel2);display:grid;place-items:center;color:var(--muted)}
 .u-req-img img{width:100%;height:100%;object-fit:cover}
 .u-req-body{padding:16px;display:grid;gap:8px}
