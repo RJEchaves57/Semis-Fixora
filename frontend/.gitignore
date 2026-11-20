@@ -1,0 +1,24 @@
+node_modules
+dist
+*.local
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+
+# Laravel backend protection
+**/.env
+**/.env.*
+!**/.env.example
+**/.env.sqlite-backup
+**/vendor/
+**/node_modules/
+**/database/*.sqlite
+**/database/*.sqlite-*
+**/storage/app/public/
+**/storage/logs/
+**/bootstrap/cache/
+**/public/storage/
+**/.phpunit.result.cache
+**/auth.json

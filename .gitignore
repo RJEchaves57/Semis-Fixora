@@ -1,3 +1,34 @@
-node_modules
-dist
+﻿# Dependencies and build output
+**/node_modules/
+**/vendor/
+**/dist/
+
+# Environment secrets and local backups
+**/.env
+**/.env.*
+!**/.env.example
+**/.env.sqlite-backup
+**/auth.json
+
+# Duplicate backend copy
+/frontend/backend/
+
+# Laravel generated files
+**/bootstrap/cache/*
+**/storage/logs/*
+**/storage/framework/cache/*
+**/storage/framework/sessions/*
+**/storage/framework/views/*
+**/public/storage
+
+# Local databases
+**/database/*.sqlite
+**/database/*.sqlite-*
+
+# Uploaded files - keep directory placeholders
+**/storage/app/public/*
+!**/storage/app/public/.gitignore
+
+# Local test and editor files
+**/.phpunit.result.cache
 *.local
