@@ -1,4 +1,4 @@
-FROM php:8.3-cli-bookworm
+FROM php:8.4-cli-bookworm
 
 RUN apt-get update && apt-get install -y \
     git unzip libpq-dev libicu-dev libzip-dev \
@@ -19,7 +19,9 @@ RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
-    --optimize-autoloader
+    --optimize-autoloader \
+    --no-progress \
+    -vvv
 
 RUN mkdir -p storage/framework/cache \
     storage/framework/sessions \
