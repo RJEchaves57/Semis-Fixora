@@ -15,6 +15,7 @@ import NewRequest from './pages/user/NewRequest';
 import MaintenanceLayout from './pages/maintenance/MaintenanceLayout';
 import MaintenanceDashboard from './pages/maintenance/MaintenanceDashboard';
 import MyTasks from './pages/maintenance/MyTasks';
+import SettingsPage from './pages/SettingsPage';
 import './styles/admin.css';
 import './styles/admin-extra.css';
 import './styles/shared.css';
@@ -53,6 +54,7 @@ export default function App() {
                 <Route index element={<UserDashboard />} />
                 <Route path="requests" element={<MyRequests />} />
                 <Route path="new" element={<NewRequest />} />
+                <Route path="settings" element={<SettingsPage />} />
               </Route>
             </Route>
 
@@ -61,6 +63,7 @@ export default function App() {
               <Route element={<MaintenanceLayout />}>
                 <Route index element={<MaintenanceDashboard />} />
                 <Route path="tasks" element={<MyTasks />} />
+                <Route path="settings" element={<SettingsPage />} />
               </Route>
             </Route>
 

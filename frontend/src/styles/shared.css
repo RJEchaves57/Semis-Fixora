@@ -51,3 +51,55 @@
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
 .gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block}
 @media(max-width:600px){.dm-meta{grid-template-columns:1fr 1fr}.track small{font-size:8.5px}}
+
+/* Profile dropdown card (admin, user and maintenance profiles) */
+.pm{position:relative;display:flex;align-items:center}
+.pm-trigger{border:0;background:none;color:inherit;padding:0;margin:0;font:inherit;cursor:pointer;display:flex;align-items:center;gap:9px;text-align:left}
+.pm-trigger:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.pm-identity b{display:block;font-size:12px;font-weight:700;line-height:1.25}
+.pm-identity small{display:block;color:var(--muted);font-size:10.5px;margin-top:3px}
+.pm-chevron{color:var(--muted);flex:none;transition:transform .18s}
+.pm.open .pm-chevron{transform:rotate(180deg)}
+.pm-card{position:absolute;top:calc(100% + 12px);right:0;width:244px;padding:7px;background:var(--panel);border:1px solid var(--border);border-radius:13px;box-shadow:0 20px 55px #0009;color:var(--text);z-index:50}
+.pm-card:before{content:'';position:absolute;top:-6px;right:22px;width:10px;height:10px;transform:rotate(45deg);background:var(--panel);border-left:1px solid var(--border);border-top:1px solid var(--border)}
+.pm-head{display:flex;align-items:center;gap:10px;padding:10px 9px 12px;position:relative;z-index:1}
+.pm-head .pm-avatar{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:10px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent);font-size:11px;font-weight:800}
+.pm-head-text{min-width:0}
+.pm-head-text b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm-head-text small{display:block;color:var(--muted);font-size:10px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm-head-text i{display:inline-block;margin-top:6px;padding:3px 7px;border-radius:5px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);font-size:9px;font-style:normal;font-weight:700;text-transform:capitalize}
+.pm-divider{height:1px;background:var(--border);margin:5px 2px}
+.pm-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;border-radius:8px;background:none;color:var(--text);font-size:12px;font-weight:500;text-align:left;text-decoration:none;cursor:pointer}
+.pm-item svg{color:var(--muted);flex:none}
+.pm-item:hover{background:var(--panel2);color:var(--accent)}
+.pm-item:hover svg{color:var(--accent)}
+.pm-danger{color:var(--bad)}
+.pm-danger svg{color:var(--bad)}
+.pm-danger:hover{background:color-mix(in srgb,var(--bad) 12%,transparent);color:var(--bad)}
+.pm-danger:hover svg{color:var(--bad)}
+.pm-item.active{background:var(--panel2);color:var(--accent)}
+.pm-item.active svg{color:var(--accent)}
+.pm-item-chevron{margin-left:auto;color:var(--muted)}
+.pm-switch-wrap{position:relative}
+.pm-switch{position:absolute;top:calc(100% + 6px);left:0;width:100%;z-index:3;background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:7px;box-shadow:0 14px 40px #000a}
+.pm-switch-title{padding:7px 8px 9px;font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--muted);text-transform:uppercase}
+.pm-switch-list{max-height:236px;overflow:auto;display:grid;gap:2px}
+.pm-account{display:flex;align-items:center;gap:9px;width:100%;padding:8px;border:0;border-radius:8px;background:none;color:var(--text);text-align:left;cursor:pointer}
+.pm-account:hover:not(:disabled){background:var(--panel2)}
+.pm-account:disabled{opacity:.62;cursor:default}
+.pm-account-avatar{width:29px;height:29px;flex:0 0 29px;display:grid;place-items:center;border-radius:9px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent);font-size:9px;font-weight:800}
+.pm-account-text{min-width:0;flex:1}
+.pm-account-text b{display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm-account-text small{display:block;color:var(--muted);font-size:9px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm-account.current{color:var(--accent)}
+.pm-account.current svg{color:var(--accent)}
+.pm-settings{padding:8px 0}
+.pm-settings h1{margin:0 0 6px;font-size:25px}
+.pm-settings>p{margin:0 0 22px;color:var(--muted);font-size:13px}
+.pm-settings-card{display:flex;align-items:center;gap:14px;max-width:430px;padding:18px;background:var(--panel);border:1px solid var(--border);border-radius:14px}
+.pm-settings-card .pm-avatar{width:46px;height:46px;display:grid;place-items:center;border-radius:12px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent);font-weight:800}
+.pm-settings-card b{display:block;font-size:14px}
+.pm-settings-card small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.pm-settings-out{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 14px;border:1px solid var(--border);background:var(--panel);color:var(--bad);border-radius:9px;font-size:12px;font-weight:700;cursor:pointer}
+.pm-settings-out:hover{border-color:var(--bad)}
+@media(max-width:600px){.pm-card{right:-6px;width:222px}}

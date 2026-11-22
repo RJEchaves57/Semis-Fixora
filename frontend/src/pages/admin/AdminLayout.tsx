@@ -1,14 +1,13 @@
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, Building2, CalendarDays, ChevronDown, ClipboardList, LayoutDashboard, LogOut, Search, Settings, ShieldCheck, Users } from 'lucide-react';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Bell, Building2, CalendarDays, ChevronDown, ClipboardList, LayoutDashboard, Search, Settings, ShieldCheck, Users } from 'lucide-react';
 import Brand from '../../components/Brand';
+import ProfileMenu from '../../components/ProfileMenu';
 import { useAuth } from '../../context/AuthContext';
 import { useRequests } from '../../context/RequestsContext';
-import { initials } from '../../data/constants';
 
 export default function AdminLayout() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { requests } = useRequests();
-  const navigate = useNavigate();
   const loc = useLocation();
   const pending = requests.filter((r) => r.status === 'Pending').length;
   const nav = [
@@ -19,7 +18,6 @@ export default function AdminLayout() {
     { to: '/admin/schedule', label: 'Maintenance schedule', icon: CalendarDays },
   ];
   const title = [...nav, { to: '/admin/settings', label: 'Settings' }].find((n) => n.to === loc.pathname)?.label ?? 'Overview';
-  const signOut = () => { logout(); navigate('/login', { replace: true }); };
   const me = user!;
 
   return (
@@ -47,11 +45,7 @@ export default function AdminLayout() {
             <b>{pending ? `${pending} awaiting approval` : 'All caught up'}</b>
             <p>Review new reports, then assign them to the maintenance team.</p>
           </div>
-          <button className="profile-row" onClick={signOut} aria-label="Sign out">
-            <span className="avatar">{initials(me.name)}</span>
-            <span><b>{me.name}</b><small>{me.title}</small></span>
-            <LogOut size={16} />
-          </button>
+          <ProfileMenu triggerClassName="profile-row" avatarClassName="avatar" subtitle={me.title} settingsTo="/admin/settings" />
         </div>
       </aside>
       <main className="main-area">
@@ -61,7 +55,7 @@ export default function AdminLayout() {
             <label className="global-search"><Search size={16} /><input placeholder="Search anything..." /></label>
             <button className="icon-btn notification-btn" aria-label="Notifications"><Bell size={18} />{pending > 0 && <i />}</button>
             <div className="top-divider" />
-            <div className="admin-mini"><span className="avatar">{initials(me.name)}</span><span><b>{me.name}</b><small>Administrator</small></span></div>
+            <ProfileMenu triggerClassName="admin-mini" avatarClassName="avatar" subtitle="Administrator" settingsTo="/admin/settings" />
           </div>
         </header>
         <div className="page-content"><Outlet /></div>

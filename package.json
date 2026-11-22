@@ -1,0 +1,16 @@
+{
+  "name": "fixora",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fixora School Maintenance System - single command dev startup",
+  "scripts": {
+    "dev": "concurrently -k -n web,api,assets -c cyan,green,magenta \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:assets\"",
+    "dev:web": "npm --prefix frontend run dev",
+    "dev:api": "npm --prefix backend/api run serve",
+    "dev:assets": "npm --prefix backend/api run dev",
+    "setup": "npm install && npm --prefix frontend install && npm --prefix backend/api install"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}

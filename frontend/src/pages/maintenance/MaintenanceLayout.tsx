@@ -2,7 +2,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { HardHat, KanbanSquare, LayoutDashboard, LogOut, Wrench } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useRequests } from '../../context/RequestsContext';
-import { initials } from '../../data/constants';
+import ProfileMenu from '../../components/ProfileMenu';
 
 export default function MaintenanceLayout() {
   const { user, logout } = useAuth();
@@ -24,7 +24,7 @@ export default function MaintenanceLayout() {
       <div className="m-body">
         <header className="m-top">
           <div className="m-top-title"><HardHat size={18} /> Maintenance Team <span>· Field console</span></div>
-          <div className="m-who"><span className="m-avatar">{initials(me.name)}</span><span><b>{me.name}</b><small>{me.specialty} · {me.title}</small></span></div>
+          <ProfileMenu triggerClassName="m-who" avatarClassName="m-avatar" subtitle={`${me.specialty} · ${me.title}`} settingsTo="/maintenance/settings" />
         </header>
         <main className="m-main"><Outlet /></main>
       </div>

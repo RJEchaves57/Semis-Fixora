@@ -1,0 +1,11 @@
+{
+  "name": "fixora-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wrapper for the Laravel app in ./api",
+  "scripts": {
+    "dev": "npm --prefix api run dev",
+    "serve": "npm --prefix api run serve",
+    "build": "npm --prefix api run build"
+  }
+}
