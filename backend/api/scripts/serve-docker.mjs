@@ -43,7 +43,13 @@ async function ensureContainer() {
       '--env-file', envFile,
       '-e', 'PORT=8123',
       'fixora-api:local',
-    ]);
+    ], true);
+
+    // Another watcher may have created it at the same time — that's fine.
+    const now = docker(['ps', '-a', '--filter', `name=^/${name}$`, '--format', '{{.Names}}'], true);
+
+    if (now !== name) return false;
+
     console.log('Created and started the Fixora backend container.');
     return true;
   }
