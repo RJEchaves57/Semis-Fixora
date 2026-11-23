@@ -1,4 +1,5 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { RequestsProvider } from './context/RequestsContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -28,9 +29,24 @@ function Home() {
   return <Navigate to={user ? roleHome[user.role] : '/login'} replace />;
 }
 
+function DeepLinkRestore() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const path = sessionStorage.getItem('fixora-deep-link');
+    if (path) {
+      sessionStorage.removeItem('fixora-deep-link');
+      navigate(path, { replace: true });
+    }
+  }, [navigate]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <DeepLinkRestore />
       <AuthProvider>
         <RequestsProvider>
           <Routes>

@@ -166,6 +166,11 @@ export default function Sections() {
     load();
   }, []);
 
+  useEffect(() => {
+    setDialog(null);
+    setError('');
+  }, [pathname]);
+
   const openDialog = (name: string, initial: FormState = {}) => {
     setForm(initial);
     setError('');

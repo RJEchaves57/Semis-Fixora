@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Loading FIXORA…</title>
+  </head>
+  <body>
+    <script>
+      // Static hosts without an SPA rewrite serve this file for deep links.
+      // Remember the requested route, then let React Router restore it.
+      var path = location.pathname + location.search;
+      if (path && path !== "/") {
+        sessionStorage.setItem("fixora-deep-link", path);
+      }
+      location.replace("/");
+    </script>
+  </body>
+</html>
