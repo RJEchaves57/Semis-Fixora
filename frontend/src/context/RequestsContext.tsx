@@ -18,7 +18,7 @@ export type NewRequestInput = {
   location: string;
   priority: Priority;
   images: Media[];
-  video: Media;
+  video: Media | null;
   requesterId: string;
   requester: string;
 };
@@ -102,7 +102,7 @@ export function RequestsProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    if (input.video.file) {
+    if (input.video?.file) {
       formData.append("video", input.video.file);
     }
 

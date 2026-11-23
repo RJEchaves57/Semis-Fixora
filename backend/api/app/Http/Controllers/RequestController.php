@@ -57,9 +57,9 @@ class RequestController extends Controller
             'category' => ['required', Rule::in(MaintenanceRequest::CATEGORIES)],
             'location' => 'required|string|max:255',
             'priority' => ['required', Rule::in(MaintenanceRequest::PRIORITIES)],
-            'images' => 'required|array|min:1|max:6',
+            'images' => 'nullable|array|max:6',
             'images.*' => 'image|max:5120', // 5 MB each
-            'video' => 'required|file|mimetypes:video/mp4,video/quicktime,video/webm,video/x-msvideo,video/x-matroska|max:51200', // 50 MB
+            'video' => 'nullable|file|mimetypes:video/mp4,video/quicktime,video/webm,video/x-msvideo,video/x-matroska|max:51200', // 50 MB
         ]);
 
         $fingerprint = MaintenanceRequest::fingerprint($data['category'], $data['location'], $data['title']);
@@ -86,14 +86,16 @@ class RequestController extends Controller
                 ]);
                 $req->update(['code' => 'FX-'.(2048 + $req->id)]);
 
-                foreach ($data['images'] as $file) {
+                foreach ($data['images'] ?? [] as $file) {
                     $path = $file->store("requests/{$req->id}", 'public');
                     $stored[] = $path;
                     $req->media()->create(['type' => 'image', 'path' => $path, 'original_name' => $file->getClientOriginalName()]);
                 }
-                $path = $data['video']->store("requests/{$req->id}", 'public');
-                $stored[] = $path;
-                $req->media()->create(['type' => 'video', 'path' => $path, 'original_name' => $data['video']->getClientOriginalName()]);
+                if (! empty($data['video'])) {
+                    $path = $data['video']->store("requests/{$req->id}", 'public');
+                    $stored[] = $path;
+                    $req->media()->create(['type' => 'video', 'path' => $path, 'original_name' => $data['video']->getClientOriginalName()]);
+                }
 
                 return $req;
             });

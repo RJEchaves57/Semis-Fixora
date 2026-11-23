@@ -8,7 +8,7 @@ import { DuplicateRequestError } from '../../lib/duplicates';
 import type { Priority } from '../../types';
 
 // Media rules (change here if your instructor wants different limits)
-const MIN_IMAGES = 1;
+const MIN_IMAGES = 0;
 const MAX_IMAGES = 6;
 const MAX_IMAGE_MB = 5;
 const MAX_VIDEO_MB = 50;
@@ -65,14 +65,14 @@ export default function NewRequest() {
     location: !form.location.trim() ? 'Please enter the location.' : '',
     description: !form.description.trim() ? 'Please describe the problem.' : '',
     images: images.length < MIN_IMAGES ? `Add at least ${MIN_IMAGES} photo${MIN_IMAGES > 1 ? 's' : ''} of the problem.` : '',
-    video: !video ? 'A video of the problem is required.' : '',
+    video: '',
   };
   const invalid = Object.values(errors).some(Boolean);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    if (invalid || !video || saving) return;
+    if (invalid || saving) return;
     setSaving(true);
     setSubmitError('');
     try {
@@ -80,7 +80,7 @@ export default function NewRequest() {
         ...form,
         title: form.title.trim(), location: form.location.trim(), description: form.description.trim(),
         images: images.map((i) => ({ name: i.file.name, url: i.url, file: i.file })),
-        video: { name: video.file.name, url: video.url, file: video.file },
+        video: video ? { name: video.file.name, url: video.url, file: video.file } : null,
         requesterId: user!.id, requester: user!.name,
       });
       navigate('/user/requests');
@@ -95,7 +95,7 @@ export default function NewRequest() {
   return (
     <>
       <button className="u-back" onClick={() => navigate(-1)}><ArrowLeft size={15} /> Back</button>
-      <div className="u-page-head"><div><h1>New maintenance request</h1><p>Tell us what’s wrong and show us with photos and a video.</p></div></div>
+      <div className="u-page-head"><div><h1>New maintenance request</h1><p>Tell us what’s wrong. Photos and video are optional.</p></div></div>
 
       <form className="u-form" onSubmit={submit} noValidate>
         <section className="u-card f-grid">
@@ -108,8 +108,8 @@ export default function NewRequest() {
         </section>
 
         <section className="u-card">
-          <h2>Photos <em>required</em></h2>
-          <p className="f-help">Upload {MIN_IMAGES > 1 ? `at least ${MIN_IMAGES}` : 'one or more'} photos (max {MAX_IMAGES}, {MAX_IMAGE_MB} MB each).</p>
+          <h2>Photos <em>optional</em></h2>
+          <p className="f-help">Add up to {MAX_IMAGES} photos ({MAX_IMAGE_MB} MB each) if you have them.</p>
           <input ref={imgInput} type="file" accept="image/*" multiple hidden onChange={onImages} />
           <div className="m-grid">
             {images.map((i) => (
@@ -126,8 +126,8 @@ export default function NewRequest() {
         </section>
 
         <section className="u-card">
-          <h2>Video <em>required</em></h2>
-          <p className="f-help">Upload one short video showing the problem (max {MAX_VIDEO_MB} MB).</p>
+          <h2>Video <em>optional</em></h2>
+          <p className="f-help">Add one short video showing the problem (max {MAX_VIDEO_MB} MB) if you have one.</p>
           <input ref={vidInput} type="file" accept="video/*" hidden onChange={onVideo} />
           {video ? (
             <div className="m-video">
@@ -142,7 +142,7 @@ export default function NewRequest() {
 
         {mediaErrors.length > 0 && <div className="f-alert" role="alert">{mediaErrors.map((m) => <div key={m}>{m}</div>)}</div>}
         {submitError && <div className="f-alert" role="alert">{submitError}</div>}
-        {submitted && invalid && <div className="f-alert" role="alert">Please complete the required fields above — photos and a video are both required.</div>}
+        {submitted && invalid && <div className="f-alert" role="alert">Please complete the required fields above — title, category, location, and description.</div>}
 
         <div className="f-actions">
           <button type="button" className="btn btn-ghost" onClick={() => navigate(-1)}>Cancel</button>

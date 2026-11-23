@@ -63,7 +63,7 @@ export default function Sections() {
           className="primary-btn"
           onClick={() =>
             alert(
-              `${title}: create workflow is ready to connect to your backend.`,
+              `${title} is view-only in this demo. Create a maintenance request from the My Requests page.`,
             )
           }
         >

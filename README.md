@@ -8,40 +8,65 @@ From this folder:
 npm run dev
 ```
 
-Or from your home folder (`C:\Users\HP`), the same command works — it now delegates here:
-
-```bash
-npm run dev
-```
-
 This starts three labelled processes:
 
 | Process | What | URL |
 |---|---|---|
 | `web` | React app (Vite) | http://localhost:5180 |
-| `api` | Laravel API (`php artisan serve`) | http://127.0.0.1:8123 |
+| `api` | Laravel API inside Docker (PHP 8.4 + pdo_pgsql) | http://127.0.0.1:8123 |
 | `assets` | Laravel CSS/JS asset watcher | http://localhost:5181 |
 
-These ports are intentionally non-default so they do not clash with browser-automation tools (Makoto).
+The ports are intentionally non-default so they do not clash with browser-automation tools.
 
-Press `Ctrl+C` to stop all of them.
+`npm run dev` is **duplicate-safe**. If Fixora is already running, it will not start a second copy. It will tell you to open http://localhost:5180 instead.
+
+Press `Ctrl+C` to stop all three processes. The Docker container keeps running so the API stays connected; if it ever stops, the `api` process starts it again automatically.
+
+## Backend database
+
+The backend uses **Neon PostgreSQL**, not SQLite. The connection is stored in:
+
+```text
+backend/api/.env
+```
+
+It uses the direct Neon host (without `-pooler`) because the pooler breaks PHP transactions.
 
 ## One-time setup
 
 ```bash
-npm run setup                 # installs root, frontend and backend npm packages
+npm run setup
 cd backend/api
-composer install              # needs PHP 8.3+; PHP 8.5 is installed at C:\Users\HP\.config\herd-lite\bin\php.exe
-php artisan key:generate
-php artisan migrate --force --seed
+docker build -t fixora-api:local .
 ```
 
-`backend/api/.env` and the SQLite database are already prepared in this checkout.
-The dev script points at the installed PHP 8.5 explicitly, so it works even before you restart the terminal.
-(Restarting the terminal puts that PHP on `PATH` for normal `php`/`composer` commands.)
+Docker Desktop must be running. The first `npm run dev` will build/start the backend container if needed.
 
-## Notes
+## Render deployment
 
-- The frontend `npm run dev` lives in `frontend/`.
-- The Laravel app lives in `backend/api/`; `backend/package.json` is a thin wrapper around it.
-- Demo logins: `user@fixora.edu / user123`, `admin@fixora.edu / admin123`, `rafael@fixora.edu / team123`.
+`render.yaml` is included as a blueprint. It creates:
+
+- `fixora-api` — Docker web service using `backend/api/Dockerfile`
+- `fixora-web` — static site built from `frontend/`
+
+No Render PostgreSQL add-on is created because Neon is used instead. Secrets are marked `sync: false`, so Render will ask you to fill them in the dashboard:
+
+- `APP_KEY`
+- `APP_URL`
+- `DB_PASSWORD`
+- `FRONTEND_URL`
+- `VITE_API_URL`
+- `FIXORA_ADMIN_CODE`
+- `FIXORA_MAINTENANCE_CODE`
+
+Set `VITE_API_URL` to the Render API service URL, for example:
+
+```text
+https://fixora-api.onrender.com
+```
+
+## Demo logins
+
+- `user@fixora.edu` / `user123`
+- `admin@fixora.edu` / `admin123`
+- `rafael@fixora.edu` / `team123`

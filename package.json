@@ -4,7 +4,8 @@
   "private": true,
   "description": "Fixora School Maintenance System - single command dev startup",
   "scripts": {
-    "dev": "concurrently -k -n web,api,assets -c cyan,green,magenta \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:assets\"",
+    "dev": "node scripts/dev.mjs",
+    "dev:raw": "concurrently -k -n web,api,assets -c cyan,green,magenta \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:assets\"",
     "dev:web": "npm --prefix frontend run dev",
     "dev:api": "npm --prefix backend/api run serve",
     "dev:assets": "npm --prefix backend/api run dev",
