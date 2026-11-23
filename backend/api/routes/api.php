@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\StaffController;
@@ -12,6 +13,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/staff', [StaffController::class, 'index']);
+
+    // Admin workspace actions (facilities, schedule, settings, team)
+    Route::get('/facilities', [AdminController::class, 'facilities']);
+    Route::post('/facilities', [AdminController::class, 'addFacility']);
+    Route::get('/schedules', [AdminController::class, 'schedules']);
+    Route::post('/schedules', [AdminController::class, 'addSchedule']);
+    Route::get('/settings', [AdminController::class, 'settings']);
+    Route::post('/settings', [AdminController::class, 'saveSettings']);
+    Route::post('/staff', [AdminController::class, 'addStaff']);
 
     Route::get('/requests', [RequestController::class, 'index']);
     Route::post('/requests', [RequestController::class, 'store']);
