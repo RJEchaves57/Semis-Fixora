@@ -4,6 +4,7 @@ import {
   CalendarDays,
   CheckCircle2,
   Clock3,
+  Plus,
   Users,
   Wrench,
 } from "lucide-react";
@@ -58,6 +59,23 @@ export default function Sections() {
           <h1>{title}</h1>
           <p>{desc}</p>
         </div>
+        <button
+          className="primary-btn"
+          onClick={() =>
+            alert(
+              `${title}: create workflow is ready to connect to your backend.`,
+            )
+          }
+        >
+          <Plus size={17} />{" "}
+          {pathname === "/schedule"
+            ? "Add schedule"
+            : pathname === "/staff"
+              ? "Add staff member"
+              : pathname === "/facilities"
+                ? "Add facility"
+                : "Save changes"}
+        </button>
       </div>
       {pathname === "/facilities" ? (
         <div className="facility-grid">

@@ -97,11 +97,11 @@ export default function Layout() {
 
           <button
             className="profile-row"
-            onClick={() => alert("Signed in as Admin User")}
+            onClick={() => alert("Signed in as Admin")}
           >
             <span className="avatar">AU</span>
             <span>
-              <b>Admin User</b>
+              <b>Admin</b>
               <small>System administrator</small>
             </span>
             <LogOut size={16} />
@@ -145,7 +145,7 @@ export default function Layout() {
             <div className="admin-mini">
               <span className="avatar">AU</span>
               <span>
-                <b>Admin User</b>
+                <b>Admin</b>
                 <small>Administrator</small>
               </span>
               <ChevronDown size={15} />

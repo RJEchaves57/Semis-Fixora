@@ -12,7 +12,7 @@ export const accounts: Account[] = [
   },
   {
     id: "a-admin",
-    name: "Admin User",
+    name: "Admin",
     email: "admin@fixora.edu",
     password: "admin123",
     role: "admin",

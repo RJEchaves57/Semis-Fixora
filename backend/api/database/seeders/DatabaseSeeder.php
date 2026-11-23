@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     {
         $accounts = [
             ['Maria Santos', 'user@fixora.edu', 'user123', 'user', 'Teacher', null],
-            ['Admin User', 'admin@fixora.edu', 'admin123', 'admin', 'System administrator', null],
+            ['Admin', 'admin@fixora.edu', 'admin123', 'admin', 'System administrator', null],
             ['Rafael Dela Cruz', 'rafael@fixora.edu', 'team123', 'maintenance', 'Electrical technician', 'Electrical'],
             ['Michelle Garcia', 'michelle@fixora.edu', 'team123', 'maintenance', 'Maintenance technician', 'Plumbing'],
             ['James Lim', 'james@fixora.edu', 'team123', 'maintenance', 'Facilities specialist', 'HVAC'],
