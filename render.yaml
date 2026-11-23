@@ -90,5 +90,10 @@ services:
         source: /*
         destination: /index.html
     envVars:
+      # Render injects the public API URL at BUILD time, so the React bundle
+      # always calls the correct backend. No manual URL needed.
       - key: VITE_API_URL
-        sync: false
+        fromService:
+          name: fixora-api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
